@@ -19,7 +19,9 @@ const config = ({
       // args:['--start-maximized'],
       },
     browserName: 'chromium',
-    headless: false
+    // Default = headed
+    // HEADLESS=true → headless
+    headless: process.env.HEADLESS === 'true'
   },
 
   /* Configure projects for major browsers */
