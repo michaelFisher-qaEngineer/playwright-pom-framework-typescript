@@ -1,4 +1,4 @@
-import {test, expect, chromium} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LaptopsAndNotebooksPage } from '../pages/LaptopsAndNotebooksPage';
 import { ProductPage } from '../pages/ProductPage';
@@ -22,8 +22,7 @@ Test case - Complete Purchase
 13. Validate Order COnfirmation
 9. Close WebDriver
 */
-
-test('@sanity @regression TC04_CompletePurchase', async({page}) => {
+test.only('@sanity @regression @TC04 TC04_CompletePurchase', async({page}) => {
     const home = new HomePage(page);
     const laptopsPage = new LaptopsAndNotebooksPage(page);
     const productPage = new ProductPage(page);
@@ -39,8 +38,11 @@ test('@sanity @regression TC04_CompletePurchase', async({page}) => {
     await checkoutPage.openLogin();
     await login.login("michael.fisher.qaengineer@gmail.com", "123321");
     await checkoutPage.selectShippingAddressByName('Michael Fisher');
+    await page.pause();
     await checkoutPage.selectShippingMethod();
+    // await page.pause();
     await checkoutPage.selectPaymentMethod();
+    // await page.pause();
     await checkoutPage.submitOrder();
     await orderSuccessPage.verifySuccessMessage();
 });
