@@ -1,4 +1,4 @@
-import  { test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { AccountPage } from '../pages/AccountPage';
@@ -15,7 +15,7 @@ import { AffiliateInfoPage } from '../pages/AffiliateInfoPage';
         7. Click on Continue
         8. Confirm Success
 */
-test.describe('@regression TC06_AddAffiliate', () => {
+test.describe('@regression @TC06 TC06_AddAffiliate', () => {
     let account: AccountPage; 
     let affiliate: AffiliateInfoPage;
 

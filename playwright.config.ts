@@ -6,9 +6,9 @@ import { chromium, defineConfig, devices } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 
-const config = ({
+export default defineConfig ({
   testDir: './tests',
-  timeout: 15000,
+  timeout: 7000,
   expect: { //assertions timeouts:
     timeout: 3000,
   },
@@ -18,10 +18,11 @@ const config = ({
         args: ['--disable-cache']
       // args:['--start-maximized'],
       },
-    browserName: 'chromium',
+    // browserName: 'chromium',
     // Default = headed
     // HEADLESS=true → headless
-    headless: process.env.HEADLESS === 'true'
+    headless: process.env.HEADLESS === 'true',
+    screenshot: 'only-on-failure', // on, off, only-on-failure
   },
 
   /* Configure projects for major browsers */
@@ -31,18 +32,17 @@ const config = ({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
 
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
 
   
   ],
 
 });
-module.exports = config

@@ -1,12 +1,8 @@
-import {test, expect, chromium} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 
-test('@sanity TC01_LaunchApplication', async ({page}) => {
-
-    //change this to POM-version with methods from home page:
-
+test('@sanity @regression @TC01 TC01_LaunchApplication', async ({page}) => {
     const home = new HomePage(page);
-    await home.goto();
-    await expect(page).toHaveTitle("Your store of fun")
-
+    await home.openHomePage();
+    await home.verifyHomePageTitle();
 });
