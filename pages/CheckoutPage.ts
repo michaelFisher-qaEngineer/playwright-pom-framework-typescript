@@ -14,7 +14,6 @@ export class CheckoutPage {
     readonly successAlert: Locator;
     readonly successAlertClose: Locator;
     readonly shippingMethodModal: Locator;
-
     readonly shippingMethodSuccessAlert: Locator;
     readonly shippingAddressSuccessAlert: Locator;
     readonly paymentMethodSuccessAlert: Locator;

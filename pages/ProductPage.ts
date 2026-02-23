@@ -15,7 +15,6 @@ export class ProductPage {
         this.deliveryDate = page.getByRole('textbox', { name: '* Delivery Date' });
         this.addToCartButton = page.getByRole('button', { name: 'Add to Cart' });
         this.alertSuccess = page.getByText('Success: You have added HP');
-        // this.successAlert = page.locator('.alert-success');
         this.cartButton = page.getByRole('button', { name: ' 1 item(s) - $' });
         this.cartItem = page.locator('#cart');
         this.checkoutButton = page.getByRole('link', { name: ' Checkout' });
