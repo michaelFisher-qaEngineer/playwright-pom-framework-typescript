@@ -1,4 +1,4 @@
-import {test, expect, chromium} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LaptopsAndNotebooksPage } from '../pages/LaptopsAndNotebooksPage';
 import { ProductPage } from '../pages/ProductPage';
@@ -15,7 +15,7 @@ Test case - Add to Cart
 8. Validate Item added to the cart successfully
 9. Close WebDriver
 */
-test('@sanity @regression TC03_AddToCart', async({page}) => {
+test('@sanity @regression @TC03 TC03_AddToCart', async({page}) => {
     const home = new HomePage(page);
     const laptopsPage = new LaptopsAndNotebooksPage(page);
     const productPage = new ProductPage(page);

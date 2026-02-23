@@ -8,7 +8,7 @@ import { chromium, defineConfig, devices } from '@playwright/test';
 
 const config = ({
   testDir: './tests',
-  timeout: 15000,
+  timeout: 7000,
   expect: { //assertions timeouts:
     timeout: 3000,
   },
@@ -31,15 +31,15 @@ const config = ({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
 
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
 
   
   ],

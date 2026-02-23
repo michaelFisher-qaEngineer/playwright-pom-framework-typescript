@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { AccountPage } from '../pages/AccountPage';
@@ -18,21 +18,17 @@ import { ProductPage } from '../pages/ProductPage';
 		// 5. Click on Add on heart - add to wishlist -
 		// Confirm Success - //div[@class='alert alert-success alert-dismissible']
 
-test('@regression TC05_AddToWishList', async ({page}) => {
+test('@regression @TC05 TC05_AddToWishList', async ({page}) => {
     const home = new HomePage(page);
     const login = new LoginPage(page);
     const account = new AccountPage(page);
     const laptopsPage = new LaptopsAndNotebooksPage(page);
     const productPage = new ProductPage(page);
     await home.goto();
-    // await page.pause();
     await home.clickMyAccount();
     await home.clickLogin();
-
     await login.login("michael.fisher.qaengineer@gmail.com", "123321");
     await account.verifyMyAccountLabel();
-    // await home.openLaptopsAndNotebooksMenu();
-    // await home.selectShowAll();
     await home.openShowAllLaptopsAndNotebooks();
     await laptopsPage.addToWishList(1)
     await laptopsPage.verifyAlertText();

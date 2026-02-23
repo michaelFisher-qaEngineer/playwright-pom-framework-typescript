@@ -1,4 +1,4 @@
-import {test, expect, chromium} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { AccountPage } from '../pages/AccountPage';
@@ -7,7 +7,7 @@ type UserRow = {username: string, password: string};
 const users = (dataset.Sheet1 ?? []) as UserRow[];
 
 for(const data of users) {
-    test(`@sanity @datadriven @regression TC02_Login-${data.username}`, async ({page}) => {
+    test(`@sanity @datadriven @regression @TC02 TC02_Login-${data.username}`, async ({page}) => {
         const home = new HomePage(page);
         const login = new LoginPage(page);
         const account = new AccountPage(page);

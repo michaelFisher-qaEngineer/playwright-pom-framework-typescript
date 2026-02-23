@@ -1,4 +1,4 @@
-import { Page, Locator, expect} from '@playwright/test';
+import { Page, Locator} from '@playwright/test';
 
 export class CheckoutPage {
     readonly page: Page;
@@ -15,6 +15,10 @@ export class CheckoutPage {
     readonly successAlertClose: Locator;
     readonly shippingMethodModal: Locator;
 
+    readonly shippingMethodSuccessAlert: Locator;
+    readonly shippingAddressSuccessAlert: Locator;
+    readonly paymentMethodSuccessAlert: Locator;
+
     constructor(page: Page) {
         this.page = page;
         this.loginLink = page.getByRole('link', { name: 'login page' });
@@ -26,35 +30,12 @@ export class CheckoutPage {
         this.submitOrderButton = page.getByRole('button', { name: 'Confirm Order' });
         this.shippingModal = page.locator("#modal-shipping");
         this.anyModalBackdrop = page.locator(".modal-backdrop.show");
-        this.successAlert = page.locator('#alert .alert.alert-success.alert-dismissible');
-        this.successAlertClose = this.successAlert.locator('button.btn-close[data-bs-dismiss="alert"]');
+        this.successAlert = page.locator('div.alert.alert-success.alert-dismissible');
+        this.successAlertClose = page.locator('button.btn-close:visible');
         this.shippingMethodModal = page.locator('#modal-shipping');
-    }
-
-    private async waitForNoBlockingOverlays() {
-        // If they’re not present, these expectations pass immediately.
-        await expect(this.shippingModal).toBeHidden({ timeout: 15000 });
-        await expect(this.anyModalBackdrop).toBeHidden({ timeout: 15000 });
-    }
-    async waitForSuccessAlertAutoDismiss() {
-        const alert = this.page.locator('#alert .alert.alert-success.alert-dismissible');
-        // If it appears, wait for it to go away
-        await alert.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
-        await alert.waitFor({ state: 'detached', timeout: 15000 }).catch(async () => {
-        await alert.waitFor({ state: 'hidden', timeout: 15000 });
-        });
-    }
-
-    async waitForSuccessAlertToDisappear() {
-        // If it's not there, this returns fast.
-        if (await this.successAlert.isVisible().catch(() => false)) {
-            // Close it (fast and deterministic)
-            await this.successAlertClose.click({ timeout: 5000 }).catch(() => {});
-            // Wait until it’s removed/hidden
-            await this.successAlert.waitFor({ state: 'detached', timeout: 15000 }).catch(async () => {
-            await this.successAlert.waitFor({ state: 'hidden', timeout: 15000 });
-            });
-        }
+        this.shippingMethodSuccessAlert = page.getByText('Success: You have changed shipping method!');
+        this.shippingAddressSuccessAlert = page.getByText('Success: You have changed shipping address!');
+        this.paymentMethodSuccessAlert = page.getByText('Success: You have changed payment method!');
     }
 
     async openLogin() {
@@ -68,7 +49,7 @@ export class CheckoutPage {
             .getAttribute('value');
 
         await this.shippingAddressDropdown.selectOption(value);
-        await this.waitForSuccessAlertToDisappear();
+        await this.closeShippingAddressSuccessAlertIfPresent();
     }
 
     async selectShippingMethod() {
@@ -77,8 +58,7 @@ export class CheckoutPage {
         await this.shippingMethodModal.waitFor({ state: 'visible' });
         await this.continueButton.waitFor({ state: 'visible' });
         await this.continueButton.click();
-        await this.waitForSuccessAlertToDisappear();
-        await this.shippingMethodModal.waitFor({ state: 'hidden' });
+        await this.closeShippingMethodSuccessAlertIfPresent();
     }
 
     async selectPaymentMethod() {
@@ -86,11 +66,31 @@ export class CheckoutPage {
         await this.paymentMethodsButton.click();
         await this.continueButton.waitFor({ state: 'visible' });
         await this.continueButton.click();
-        await this.waitForSuccessAlertToDisappear();
+        await this.closePaymentMethodSuccessAlertIfPresent();
     }
 
     async submitOrder() {
         await this.submitOrderButton.click();
+    }
+
+    private async closeSuccessAlertContaining(text: string) {
+        const alert = this.page.locator('.alert.alert-success', { hasText: text });
+        await alert.locator('[data-bs-dismiss="alert"]').click();
+        await alert.waitFor({ state: 'detached', timeout: 5000 }).catch(async () => {
+            await alert.waitFor({ state: 'hidden', timeout: 5000 });
+        });
+    }
+
+    private async closeShippingMethodSuccessAlertIfPresent() {
+        await this.closeSuccessAlertContaining('You have changed shipping method!');
+    }
+
+    private async closeShippingAddressSuccessAlertIfPresent() {
+        await this.closeSuccessAlertContaining('You have changed shipping address!');
+    }
+
+    private async closePaymentMethodSuccessAlertIfPresent() {
+        await this.closeSuccessAlertContaining('You have changed payment method!');
     }
 
 }

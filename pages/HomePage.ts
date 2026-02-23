@@ -1,4 +1,4 @@
-import { Page, Locator} from '@playwright/test';
+import { Page, Locator, expect} from '@playwright/test';
 
 export class HomePage {
     readonly page: Page;
@@ -16,6 +16,10 @@ export class HomePage {
 
     async goto() {
         await this.page.goto('https://cloudberrystore.services/');
+    }
+
+    async openHomePage() {
+        await this.goto();
     }
 
     async clickMyAccount() {
@@ -39,11 +43,10 @@ export class HomePage {
         await this.laptopsAndNotebooks.click();
         await this.showAll.waitFor({ state: 'visible' }); 
         await this.showAll.click();
+    }
 
-        // await this.laptopsAndNotebooks.waitFor({state: 'visible'});
-        // await this.laptopsAndNotebooks.click();
-        // await this.showAll.waitFor({ state: 'visible' }); 
-        // await this.showAll.click();
+    async verifyHomePageTitle() {
+        await expect(this.page).toHaveTitle("Your store of fun");
     }
 
 }
