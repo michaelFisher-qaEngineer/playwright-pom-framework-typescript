@@ -17,6 +17,7 @@ export class CheckoutPage {
     readonly shippingMethodSuccessAlert: Locator;
     readonly shippingAddressSuccessAlert: Locator;
     readonly paymentMethodSuccessAlert: Locator;
+    readonly alertLocator: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -35,6 +36,7 @@ export class CheckoutPage {
         this.shippingMethodSuccessAlert = page.getByText('Success: You have changed shipping method!');
         this.shippingAddressSuccessAlert = page.getByText('Success: You have changed shipping address!');
         this.paymentMethodSuccessAlert = page.getByText('Success: You have changed payment method!');
+        this.alertLocator = page.locator('.alert.alert-success'); // This is a general locator for success alerts
     }
 
     async openLogin() {
@@ -70,10 +72,10 @@ export class CheckoutPage {
 
     async submitOrder() {
         await this.submitOrderButton.click();
-    }
+    } 
 
     private async closeSuccessAlertContaining(text: string) {
-        const alert = this.page.locator('.alert.alert-success', { hasText: text });
+        const alert = this.alertLocator.filter({ hasText: text });
         await alert.locator('[data-bs-dismiss="alert"]').click();
         await alert.waitFor({ state: 'detached', timeout: 5000 }).catch(async () => {
             await alert.waitFor({ state: 'hidden', timeout: 5000 });
