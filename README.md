@@ -35,7 +35,7 @@ This is intended as a **portfolio example of Playwright automation design**, not
 
 # Project Structure
 
-
+```
 playwright-pom-framework-typescript
 │
 ├── pages/
@@ -59,7 +59,7 @@ playwright-pom-framework-typescript
 ├── playwright.config.ts
 ├── package.json
 └── README.md
-
+```
 
 ### pages/
 
